@@ -22,7 +22,6 @@ export type CreateOrderType = z.infer<typeof createOrderSchema>;
 
 // Restaurant Schemas
 export const createRestaurantSchema = z.object({
-  id: z.number().int().positive("ID must be a positive integer").optional(),
   name: z.string().min(1, "Name is required"),
   isOpen: z.boolean("open status must be a boolean").optional(),
   description: z.string().min(1, "description is required"),
