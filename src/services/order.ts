@@ -43,6 +43,28 @@ export class OrderService {
       }
     });
   }
+  
+  static async getOrderByUserId(id: number) : Promise<Order[] | null> {
+    return await prisma.order.findMany({
+      where: { customerId: id },
+      include: {
+        customer: true,
+        restaurant: true
+      }
+    });
+  }
+  
+  static async getOrderByRestaurantId(id: number) : Promise<Order[] | null> {
+    return await prisma.order.findMany({
+      where: { restaurantId: id },
+      include: {
+        customer: true,
+        restaurant: true
+      }
+    });
+  }
+
+
 
   // DELETE ORDER
   static async deleteOrder(id: number) {

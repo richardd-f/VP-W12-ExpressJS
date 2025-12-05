@@ -47,6 +47,44 @@ export class OrderController{
             next(error);
         }
     }
+    
+    static async getOrderByUserId(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { id } = idParamSchema.parse(req.params);
+            const order = await OrderService.getOrderByUserId(Number(id));
+
+            if (!order) {
+                throw new ResponseError(404, "Order not found");
+            }
+
+            res.status(200).json({
+                message: "Order retrieved successfully",
+                data: order,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+    
+    static async getOrderByRestaurantId(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { id } = idParamSchema.parse(req.params);
+            const order = await OrderService.getOrderByRestaurantId(Number(id));
+
+            if (!order) {
+                throw new ResponseError(404, "Order not found");
+            }
+
+            res.status(200).json({
+                message: "Order retrieved successfully",
+                data: order,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+
 
     static async deleteOrder(req: Request, res: Response, next: NextFunction) {
         try {
