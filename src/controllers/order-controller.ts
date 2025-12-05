@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { ResponseError } from "../errors/response-error";
 import { OrderService } from "../services/order";
 import { createOrderSchema, idParamSchema } from "../validations/services-validation";
+import { calculateETA } from "../utils/eta-order";
 
 
 export class OrderController{
@@ -9,9 +10,10 @@ export class OrderController{
         try {
             const validatedData = createOrderSchema.parse(req.body);
             const order = await OrderService.createOrder(validatedData);
+            const etaOrder = calculateETA(order);
             res.status(201).json({
                 message: "Order created successfully",
-                data: order,
+                data: etaOrder,
             });
         } catch (error) {
             next(error);
@@ -21,9 +23,10 @@ export class OrderController{
     static async getAllOrder(req: Request, res: Response, next: NextFunction) {
         try {
             const orders = await OrderService.getAllOrder();
+            const etaOrders = orders.map(order => calculateETA(order));
             res.status(200).json({
                 message: "Orders retrieved successfully",
-                data: orders,
+                data: etaOrders,
             });
         } catch (error) {
             next(error);
@@ -34,14 +37,14 @@ export class OrderController{
         try {
             const { id } = idParamSchema.parse(req.params);
             const order = await OrderService.getOrderById(Number(id));
-
+            const etaOrder = order ? calculateETA(order) : null;
             if (!order) {
                 throw new ResponseError(404, "Order not found");
             }
 
             res.status(200).json({
                 message: "Order retrieved successfully",
-                data: order,
+                data: etaOrder,
             });
         } catch (error) {
             next(error);
@@ -52,6 +55,7 @@ export class OrderController{
         try {
             const { id } = idParamSchema.parse(req.params);
             const order = await OrderService.getOrderByUserId(Number(id));
+            const etaOrders = order ? order.map(o => calculateETA(o)) : null;
 
             if (!order) {
                 throw new ResponseError(404, "Order not found");
@@ -59,7 +63,7 @@ export class OrderController{
 
             res.status(200).json({
                 message: "Order retrieved successfully",
-                data: order,
+                data: etaOrders,
             });
         } catch (error) {
             next(error);
@@ -70,6 +74,7 @@ export class OrderController{
         try {
             const { id } = idParamSchema.parse(req.params);
             const order = await OrderService.getOrderByRestaurantId(Number(id));
+            const etaOrders = order ? order.map(o => calculateETA(o)) : null;
 
             if (!order) {
                 throw new ResponseError(404, "Order not found");
@@ -77,7 +82,7 @@ export class OrderController{
 
             res.status(200).json({
                 message: "Order retrieved successfully",
-                data: order,
+                data: etaOrders,
             });
         } catch (error) {
             next(error);
