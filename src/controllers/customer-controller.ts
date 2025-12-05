@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { ResponseError } from "../errors/response-error";
 import { CustomerService } from "../services/customer";
-import { createCustomerSchema, idParamSchema } from "../validations/services-validation";
+import { createCustomerSchema, idParamSchema, updateCustomerSchema } from "../validations/services-validation";
 
 export class CustomerController {
     static async createCustomer(req: Request, res: Response, next: NextFunction) {
@@ -40,6 +40,25 @@ export class CustomerController {
 
             res.status(200).json({
                 message: "Customer retrieved successfully",
+                data: customer,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    static async updateCustomer(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { id } = idParamSchema.parse(req.params);
+            const validatedData = updateCustomerSchema.parse(req.body);
+            const customer = await CustomerService.updateCustomer(Number(id), validatedData);
+
+            if (!customer) {
+                throw new ResponseError(404, "Customer not found");
+            }
+
+            res.status(200).json({
+                message: "Customer updated successfully",
                 data: customer,
             });
         } catch (error) {

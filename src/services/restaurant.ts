@@ -34,6 +34,27 @@ export class RestaurantService {
     });
   }
 
+  // GET CLOSED RESTAURANTS
+  static async getClosedRestaurants() : Promise<Restaurant[]> {
+    return await prisma.restaurant.findMany({
+      where: { isOpen: false },
+      include: {
+        orders: true
+      }
+    });
+  }
+
+  // GET OPENED RESTAURANTS
+  static async getOpenedRestaurants() : Promise<Restaurant[]> {
+    return await prisma.restaurant.findMany({
+      where: { isOpen: true },
+      include: {
+        orders: true
+      }
+    });
+  }
+
+
   // UPDATE RESTAURANT
   static async updateRestaurant(
     id: number,

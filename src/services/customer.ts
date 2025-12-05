@@ -1,6 +1,6 @@
 import { Customer } from "@prisma/client";
 import prisma from "../config/prisma";
-import { CreateCustomerType } from "../validations/services-validation";
+import { CreateCustomerType, UpdateCustomerType } from "../validations/services-validation";
 
 export class CustomerService {
   // CREATE CUSTOMER
@@ -28,6 +28,20 @@ export class CustomerService {
       where: { id },
       include: {
         orders: true
+      }
+    });
+  }
+
+  // Update CUSTOMER
+  static async updateCustomer(
+    id: number,
+    data: UpdateCustomerType
+  ) : Promise<Customer | null> {
+    return await prisma.customer.update({
+      where: { id },
+      data: {
+        ...(data.name !== undefined && { name: data.name }),
+        ...(data.phone !== undefined && { phone: data.phone }),
       }
     });
   }

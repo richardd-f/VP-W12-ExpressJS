@@ -15,7 +15,10 @@ export const createCustomerSchema = z.object({
     .string()
     .min(1, "Phone is required"),
 });
+export const updateCustomerSchema = createCustomerSchema.partial();
+
 export type CreateCustomerType = z.infer<typeof createCustomerSchema>;
+export type UpdateCustomerType = z.infer<typeof updateCustomerSchema>;
 
 
 // Order Schemas

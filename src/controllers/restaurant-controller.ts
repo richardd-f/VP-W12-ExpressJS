@@ -50,22 +50,50 @@ export class RestaurantController {
         }
     }
 
+    
+    static async getClosedRestaurants(req: Request, res: Response, next: NextFunction) {
+        try {
+            const restaurants = await RestaurantService.getClosedRestaurants();
+            res.status(200).json({
+                message: "Closed restaurants retrieved successfully",
+                data: restaurants,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+    
+    static async getOpenedRestaurants(req: Request, res: Response, next: NextFunction) {
+        try {
+            const restaurants = await RestaurantService.getOpenedRestaurants();
+            res.status(200).json({
+                message: "Opened restaurants retrieved successfully",
+                data: restaurants,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+
+
+
     static async updateRestaurant(req: Request, res: Response, next: NextFunction) {
         try {
-        const { id } = idParamSchema.parse(req.params);
-        const validatedData = updateRestaurantSchema.parse(req.body);
-        const restaurant = await RestaurantService.updateRestaurant(Number(id), validatedData);
+            const { id } = idParamSchema.parse(req.params);
+            const validatedData = updateRestaurantSchema.parse(req.body);
+            const restaurant = await RestaurantService.updateRestaurant(Number(id), validatedData);
 
-        if (!restaurant) {
-            throw new ResponseError(404, "Restaurant not found");
-        }
+            if (!restaurant) {
+                throw new ResponseError(404, "Restaurant not found");
+            }
 
-        res.status(200).json({
-            message: "Restaurant updated successfully",
-            data: restaurant,
-        });
+            res.status(200).json({
+                message: "Restaurant updated successfully",
+                data: restaurant,
+            });
         } catch (error) {
-        next(error);
+            next(error);
         }
     }
 
