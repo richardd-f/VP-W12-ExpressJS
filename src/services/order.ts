@@ -5,7 +5,7 @@ import { CreateOrderType } from "../validations/services-validation";
 export class OrderService {
 
   // CREATE ORDER
-  static async createOrder(data: CreateOrderType) {
+  static async createOrder(data: CreateOrderType) : Promise<Order> {
     return await prisma.order.create({
       data: {
         itemAmount: data.itemAmount,

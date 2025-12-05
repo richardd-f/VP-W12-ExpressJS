@@ -4,7 +4,7 @@ import { CreateCustomerType } from "../validations/services-validation";
 
 export class CustomerService {
   // CREATE CUSTOMER
-  static async createCustomer(data: CreateCustomerType) {
+  static async createCustomer(data: CreateCustomerType) : Promise<Customer> {
     return await prisma.customer.create({
       data: {
         name: data.name,

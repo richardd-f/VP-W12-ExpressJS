@@ -5,7 +5,7 @@ import { CreateRestaurantType, UpdateRestaurantType } from "../validations/servi
 export class RestaurantService {
 
   // CREATE RESTAURANT
-  static async createRestaurant(data: CreateRestaurantType) {
+  static async createRestaurant(data: CreateRestaurantType) : Promise<Restaurant> {
     return await prisma.restaurant.create({
       data:{
         isOpen: data.isOpen ?? false,
