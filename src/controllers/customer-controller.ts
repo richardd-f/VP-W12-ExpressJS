@@ -16,7 +16,7 @@ export class CustomerController {
             next(error);
         }
     }
-
+    
     static async getAllCustomers(req: Request, res: Response, next: NextFunction) {
         try {
             const customers = await CustomerService.getAllCustomers();

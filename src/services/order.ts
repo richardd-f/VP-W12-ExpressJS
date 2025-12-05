@@ -1,3 +1,4 @@
+import { Order } from "@prisma/client";
 import prisma from "../config/prisma";
 import { CreateOrderType } from "../validations/services-validation";
 
@@ -23,7 +24,7 @@ export class OrderService {
   }
 
   // GET ALL ORDERS
-  static async getAllOrder() {
+  static async getAllOrder() : Promise<Order[]> {
     return await prisma.order.findMany({
       include: {
         customer: true,
@@ -33,7 +34,7 @@ export class OrderService {
   }
 
   // GET ORDER BY ID
-  static async getOrderById(id: number) {
+  static async getOrderById(id: number) : Promise<Order | null> {
     return await prisma.order.findUnique({
       where: { id },
       include: {

@@ -16,7 +16,7 @@ export class RestaurantService {
   }
 
   // GET ALL RESTAURANTS
-  static async getAllRestaurant() {
+  static async getAllRestaurant() : Promise<Restaurant[]> {
     return await prisma.restaurant.findMany({
       include: {
         orders: true
@@ -25,7 +25,7 @@ export class RestaurantService {
   }
 
   // GET RESTAURANT BY ID
-  static async getRestaurantById(id: number) {
+  static async getRestaurantById(id: number) : Promise<Restaurant | null> {
     return await prisma.restaurant.findUnique({
       where: { id },
       include: {
@@ -38,7 +38,7 @@ export class RestaurantService {
   static async updateRestaurant(
     id: number,
     data: UpdateRestaurantType
-  ) {
+  ) : Promise<Restaurant | null> {
     return await prisma.restaurant.update({
       where: { id },
       data: {

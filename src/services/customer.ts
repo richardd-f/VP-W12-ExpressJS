@@ -1,3 +1,4 @@
+import { Customer } from "@prisma/client";
 import prisma from "../config/prisma";
 import { CreateCustomerType } from "../validations/services-validation";
 
@@ -13,7 +14,7 @@ export class CustomerService {
   }
 
   // GET ALL CUSTOMERS
-  static async getAllCustomers() {
+  static async getAllCustomers() : Promise<Customer[]> {
     return await prisma.customer.findMany({
       include: {
         orders: true
@@ -22,7 +23,7 @@ export class CustomerService {
   }
 
   // GET CUSTOMER BY ID
-  static async getCustomerById(id: number) {
+  static async getCustomerById(id: number) : Promise<Customer | null> {
     return await prisma.customer.findUnique({
       where: { id },
       include: {
