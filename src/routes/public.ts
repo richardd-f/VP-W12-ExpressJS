@@ -1,21 +1,24 @@
 import express, { Router } from 'express';
+import { CustomerController } from '../controllers/customer-controller';
+import { RestaurantController } from '../controllers/restaurant-controller';
+import { OrderController } from '../controllers/order-controller';
 
 export const publicRouter: Router = express.Router();
 
 // Customer
-publicRouter.post('customer', ); // Create new customer
-publicRouter.get('customer', ); // get all customer info
-publicRouter.get('customer/:id', ); // get customer info
-publicRouter.delete('customer/:id', ); // delete customer
+publicRouter.post('/customer', CustomerController.createCustomer); // Create new customer
+publicRouter.get('/customer', CustomerController.getAllCustomers); // get all customer info
+publicRouter.get('/customer/:id', CustomerController.getCustomerById); // get customer info
+publicRouter.delete('/customer/:id', CustomerController.deleteCustomer); // delete customer
 
 // Restaurant
-publicRouter.post('restaurant', ); // Create new restaurant
-publicRouter.get('restaurant', ); // get all restaurant info
-publicRouter.get('restaurant/:id', ); // get restaurant info
-publicRouter.patch('restaurant/:id', ); // update restaurant info
-publicRouter.delete('restaurant/:id', ); // delete restaurant info
+publicRouter.post('/restaurant', RestaurantController.createRestaurant); // Create new restaurant
+publicRouter.get('/restaurant', RestaurantController.getAllRestaurant); // get all restaurant info
+publicRouter.get('/restaurant/:id', RestaurantController.getRestaurantById); // get restaurant info
+publicRouter.patch('/restaurant/:id', RestaurantController.updateRestaurant); // update restaurant info
+publicRouter.delete('/restaurant/:id', RestaurantController.deleteRestaurant); // delete restaurant info
 
 // Order
-publicRouter.post('order', ); // create new order
-publicRouter.get('order', ); // get all order info
-publicRouter.get('order/:id', ); // get order info
+publicRouter.post('/order', OrderController.createOrder); // create new order
+publicRouter.get('/order', OrderController.getAllOrder); // get all order info
+publicRouter.get('/order/:id', OrderController.getOrderById); // get order info
